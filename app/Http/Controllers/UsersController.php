@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller
 {
     public function index()
     {
-        $data = User::all();
-        return view('users.index', ['data' => $data]);
+        $users = User::all();
+        return view('users.index', compact('users'));
     }
 
     public function create()
@@ -57,10 +57,13 @@ class UsersController extends Controller
         return view('users.show', compact('data'));
     }
 
-    public function edit($id)
+    public function edit(User $user)
     {
-        $data = User::findorFail($id);
-        return view('users.edit', ['data' => $data]);
+        return view('users.edit', [
+            'user' => $user,
+            'userRole' => $user->roles->pluck('name')->toArray(),
+            'roles' => Role::latest()->get()
+        ]);
     }
 
     public function update(Request $request, $id)
@@ -72,17 +75,20 @@ class UsersController extends Controller
             $user->name = $request->name;
             $user->email = $request->email;
             $user->phone = $request->phone;
-            $user->password = Hash::make($request->password);
+           // $user->password = Hash::make($request->password);
+            $user->password = $request->password;
             $user->photo = $filenamewithExt;
             $user->save();
+            $user->syncRoles($request->get('role'));
         }
         else{
             $user = User::find($id);
             $user->name = $request->name;
             $user->email = $request->email;
             $user->phone = $request->phone;
-            $user->password = Hash::make($request->password);
+            $user->password = $request->password;
             $user->save();
+            $user->syncRoles($request->get('role'));
         }
         $data = $id;
         return redirect()->back()->with('success', 'User updated successfully');

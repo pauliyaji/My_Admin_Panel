@@ -72,8 +72,24 @@
                  aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ url('users/create') }}">Add New</a>
+{{--
                     <a class="collapse-item" href="{{ route('users.edit', Auth::user()->id) }}">My Profile</a>
+--}}
                     <a class="collapse-item" href="{{ route('users.index') }}">View All</a>
+                </div>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link @if(!request()->is('admin/staff*')) collapsed @endif" href="#" data-toggle="collapse"
+               data-target="#collapseStaff2" aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Settings</span>
+            </a>
+            <div id="collapseStaff2" class="collapse @if(request()->is('admin/staff*')) show @endif"
+                 aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{{ route('roles.index') }}">View Roles</a>
+                    <a class="collapse-item" href="{{ route('permissions.index') }}">View Permissions</a>
                 </div>
             </div>
         </li>

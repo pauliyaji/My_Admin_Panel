@@ -27,6 +27,7 @@
                             <th>Full Name</th>
                             <th>Email</th>
                             <th>Mobile</th>
+                            <th>Roles</th>
                             <th>Action</th>
 
                         </tr>
@@ -37,21 +38,27 @@
                             <th>Full Name</th>
                             <th>Email</th>
                             <th>Mobile</th>
+                            <th>Roles</th>
                             <th>Action</th>
                         </tr>
                         </tfoot>
                         <tbody>
-                        @if($data)
-                            @foreach($data as $d)
+                        @if($users)
+                            @foreach($users as $user)
                                 <tr>
-                                    <td>{{ $d->id }}</td>
-                                    <td>{{ $d->name }}</td>
-                                    <td>{{ $d->email  }}</td>
-                                    <td>{{ $d->mobile }}</td>
+                                    <td>{{ $user->id }}</td>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->email  }}</td>
+                                    <td>{{ $user->mobile }}</td>
                                     <td>
-                                        <a href="{{ route('users.show', $d->id) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
-                                        <a href="{{ route('users.edit', $d->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
-                                        <a onclick="return confirm('Are you sure you want to delete this data?')" href="{{ route('users.destroy', $d->id) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                                        @foreach($user->roles as $role)
+                                            <span class="badge bg-primary">{{ $role->name }}</span>
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('users.show', $user->id) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
+                                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
+                                        <a onclick="return confirm('Are you sure you want to delete this data?')" href="{{ route('users.destroy', $user->id) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                             @endforeach

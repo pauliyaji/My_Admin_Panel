@@ -20,7 +20,6 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'phone' => $this->faker->numerify("###-###-#######"), // 234-812-4638776
-            'role' => 1,
             'remember_token' => Str::random(10),
         ];
     }

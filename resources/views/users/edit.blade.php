@@ -21,21 +21,21 @@
                     <p class="text-success">{{session('success')}}</p>
                 @endif
                 <div class="table-responsive">
-                    <form method="post" action="{{ route('users.update', $data->id) }}" enctype="multipart/form-data">
+                    <form method="post" action="{{ route('users.update', $user->id) }}" enctype="multipart/form-data">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             @csrf
-                            @method('put')
+                            @method('patch')
                             <tr>
                                 <th>Full Name</th>
-                                <td><input type="text" class="form-control" value="{{ $data->name }}" name="name" id="name"/></td>
+                                <td><input type="text" class="form-control" value="{{ $user->name }}" name="name" id="name"/></td>
                             </tr>
                             <tr>
                                 <th>Email</th>
-                                <td><input type="text" class="form-control" value="{{ $data->email }}" name="email" id="email"/></td>
+                                <td><input type="text" class="form-control" value="{{ $user->email }}" name="email" id="email"/></td>
                             </tr>
                             <tr>
                                 <th>Phone</th>
-                                <td><input type="text" class="form-control" value="{{ $data->phone }}" name="phone" id="phone"/></td>
+                                <td><input type="text" class="form-control" value="{{ $user->phone }}" name="phone" id="phone"/></td>
                             </tr>
                             <tr>
                                 <th>Password</th>
@@ -43,11 +43,30 @@
                             </tr>
                             <tr>
                                 <th>Photo</th>
-                                <td><img src="{{ asset('storage/imgs/'.$data->photo) }}" height="200px" weight="200px"></td>
+                                <td><img src="{{ asset('storage/imgs/'.$user->photo) }}" height="200px" weight="200px"></td>
                             </tr>
                             <tr>
                                 <th>Photo</th>
                                 <td><input type="file" name="photo" id="photo" /></td>
+                            </tr>
+                            <tr>
+                                <th>Role</th>
+                                <td>
+                                    <select class="form-control"
+                                            name="role" required>
+                                        <option value="">Select role</option>
+                                        @foreach($roles as $role)
+                                            <option value="{{ $role->id }}"
+                                                {{ in_array($role->name, $userRole)
+                                                    ? 'selected'
+                                                    : '' }}>{{ $role->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('role'))
+                                        <span class="text-danger text-left">{{ $errors->first('role') }}</span>
+                                    @endif
+                                </td>
+
                             </tr>
                             <tr>
                                 <td colspan="2">
